@@ -7,13 +7,14 @@ function App() {
   const [characters, setCharacters] = useState([]); // キャラクターの状態管理
 
   useEffect(() => { // 副作用: APIからのデータ取得
-    fecthCharacters();
-  }, [])
+    fecthCharacters(); // 2,3などpageの数値がわたってくる
+  }, []);
+  // next押したら、fecthCharactersで次のページを呼び出す
 
-  const fecthCharacters = async () => {
+  const fecthCharacters = async (page) => {
     const apiUrl = 'https://narutodb.xyz/api/character'
     // axios getメソッドでapiUrlにリクエストを送る
-    const result = await axios.get(apiUrl);
+    const result = await axios.get(apiUrl, { params: { page: page } });
     // console.log(result);
 
     // 更新関数で取得したキャラクターのURLに値を更新する
@@ -50,6 +51,11 @@ function App() {
               </div>
             );
           })}
+          <div className='pager'>
+            <button className='prev'>前へ</button>
+            <span className="pager-number">1</span>
+            <button className='next'>次へ</button>
+          </div>
         </div>
       </main>
     </div>
